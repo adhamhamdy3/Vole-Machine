@@ -21,6 +21,7 @@ bool MemoryManager::isFound(const string &value) const {
         if (memory->memoryCells[i] == value)
             return true;
     }
+     
     return false;
 }
 

@@ -14,7 +14,7 @@ void Instructions::load1(VoleMachine* machine) {
     mem = machine->ir.substr(2);
 
     regIndex = Tools::hexToDec(reg), memIndex = Tools::hexToDec(mem);
-
+    
     string memValue = machine->memoryManager.readMemory(memIndex);
     machine->registers[regIndex].setValue(memValue);
 }
@@ -57,4 +57,26 @@ void Instructions::move(VoleMachine *machine) {
 }
 
 //todo store 3.1 R00
+
+void Instructions::jump(VoleMachine* machine) {
+    string reg0, reg1, pattern;
+    short reg1_idx, reg2_idx, pattern_idx;
+    reg1 = machine->ir[1];
+    pattern = machine->ir.substr(2);
+    reg1_idx = Tools::hexToDec(reg1);
+    pattern_idx = Tools::hexToDec(pattern);
+    if (machine->registers[0].getValue() == machine->registers[reg1_idx].getValue()) {
+        machine->pc = pattern_idx;
+    }
+
+}
+
+void Instructions::store2(VoleMachine* machine) {
+    string reg;
+    short reg_idx;
+    reg = machine->ir[1];
+    reg_idx = Tools::hexToDec(reg);
+    machine->memoryManager.writeMemory(0, reg);
+    cout << reg << endl;
+}
 
