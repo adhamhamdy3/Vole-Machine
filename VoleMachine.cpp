@@ -29,6 +29,12 @@ bool VoleMachine::executeInstruction() {
         case '3':
             Instructions::store1(this);
             break;
+        case '5':
+            Instructions::add1(this);
+            break;
+        case'6':
+            Instructions::add2(this);
+            break;
         case 'C':
             cout << "adham" << endl;
             running = false;
