@@ -5,6 +5,7 @@
 #ifndef VOLE_MACHINE_TOOLS_H
 #define VOLE_MACHINE_TOOLS_H
 #include <sstream>
+#include <string>
 using namespace std;
 
 class Tools {
