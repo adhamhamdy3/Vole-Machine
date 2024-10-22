@@ -10,6 +10,9 @@ using namespace std;
 class Tools {
 public:
     static short hexToDec(const string&);
+    static double hexToDecFloat(const string& hexValue);
+    static string decToHex(int decimalValue);
+    static string decToHexFloat(double decimalValue);
 };
 
 
