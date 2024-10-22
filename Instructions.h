@@ -14,8 +14,8 @@ public:
     static void store1(VoleMachine*);
 //    static void store2(VoleMachine*);
     static void move(VoleMachine*);
-//    static void add1(VoleMachine*);
-//    static void add2(VoleMachine*);
+    static void add1(VoleMachine*);
+    static void add2(VoleMachine*);
 //    static void jump(VoleMachine*);
 //    static void stop(VoleMachine*);
 
