@@ -57,4 +57,41 @@ void Instructions::move(VoleMachine *machine) {
 }
 
 //todo store 3.1 R00
+void Instructions::add1(VoleMachine* machine) {
+    int reg_num1, reg_num2, res_num;
+    short reg1_index, reg2_index, res_index;
+    string reg1, reg2, res;
 
+    reg1 = machine->ir[2];
+    reg2 = machine->ir[3];
+    res = machine->ir[1];
+    reg1_index = Tools::hexToDec(reg1) ,reg2_index = Tools::hexToDec(reg2);
+    res_index = Tools::hexToDec(res);
+
+    reg_num1 = stoi(machine->registers[reg1_index].getValue(),0,16);
+    reg_num2 = stoi(machine->registers[reg2_index].getValue(),0,16);
+    res_num = reg_num1 + reg_num2;
+
+    machine->registers[res_index].setValue(Tools::decToHex(res_num));
+}
+
+
+//add2
+
+void Instructions::add2(VoleMachine* machine) {
+    double reg_num1, reg_num2, res_num;
+    short reg1_index, reg2_index, res_index;
+    string reg1, reg2, res;
+
+    reg1 = machine->ir[2];
+    reg2 = machine->ir[3];
+    res = machine->ir[1];
+    reg1_index = Tools::hexToDec(reg1), reg2_index = Tools::hexToDec(reg2);
+    res_index = Tools::hexToDec(res);
+
+    reg_num1 = Tools::hexToDecFloat(machine->registers[reg1_index].getValue());
+    reg_num2 = Tools::hexToDecFloat(machine->registers[reg2_index].getValue());
+    res_num = reg_num1 + reg_num2;
+
+    machine->registers[res_index].setValue(Tools::decToHexFloat(res_num));
+}
