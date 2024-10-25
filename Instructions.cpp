@@ -76,7 +76,7 @@ void Instructions::store2(VoleMachine* machine) {
     short reg_idx;
     reg = machine->ir[1];
     reg_idx = Tools::hexToDec(reg);
-    machine->memoryManager.writeMemory(0, reg);
-    cout << reg << endl;
+    string value = machine->registers[reg_idx].getValue();
+    cout << value << endl;
 }
 
