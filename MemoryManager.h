@@ -6,6 +6,7 @@
 #define VOLE_MACHINE_MEMORYMANAGER_H
 #include "Memory.h"
 #include <iostream>
+#include <stdexcept>
 class MemoryManager {
 private:
     Memory* memory;

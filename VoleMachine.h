@@ -7,26 +7,27 @@
 #include "Register.h"
 #include "Memory.h"
 #include "MemoryManager.h"
-#include "Tools.h"
-#include "Instructions.h"
+#include "ALU.h"
+#include "CU.h"
 #include "fstream"
 
 class VoleMachine {
 private:
-    Register registers[16];
-    Memory memory;
     short pc;
     string ir;
+    Register registers[16];
+    Memory memory;
     bool running;
 public:
     VoleMachine();
     MemoryManager memoryManager;
-    void loadProgram(const string&);
     void fetchInstruction();
     bool executeInstruction();
     void displayRegisters() const;
     void clearRegisters();
-    friend class Instructions;
+    void loadProgram(const string&);
+
+    friend class CU;
 };
 
 

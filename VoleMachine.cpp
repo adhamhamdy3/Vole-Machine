@@ -4,7 +4,7 @@
 
 #include "VoleMachine.h"
 
-VoleMachine::VoleMachine() : memoryManager{&memory}, pc{0}, ir{"00"}, running{true} {
+VoleMachine::VoleMachine() : memoryManager{ &memory }, pc{ 0 }, ir{ "00" }, running{ true } {
 
 }
 
@@ -12,36 +12,37 @@ void VoleMachine::fetchInstruction() {
     string byte1, byte2;
 
     byte1 = memoryManager.readMemory(pc++);
+    pc = (pc >= 256 ? 0 : pc);
     byte2 = memoryManager.readMemory(pc++);
-    //todo check out of bounds error
+    pc = (pc >= 256 ? 0 : pc);
     ir = byte1 + byte2;
 }
 
 bool VoleMachine::executeInstruction() {
     char op_code = ir[0];
     switch (op_code) {
-        case '1':
-            Instructions::load1(this);
-            break;
-        case '2':
-            Instructions::load2(this);
-            break;
-        case '3':
-            Instructions::store1(this);
-            break;
-        case 'C':
-            cout << "adham" << endl;
-            running = false;
-            break;
-        default:
-            //todo implement default
-            cout << "default" << endl;
+    case '1':
+        CU::load1(this);
+        break;
+    case '2':
+        CU::load2(this);
+        break;
+    case '3':
+        CU::store1(this);
+        break;
+    case 'C':
+        cout << "adham" << endl;
+        running = false;
+        break;
+    default:
+        //todo implement default
+        cout << "default" << endl;
     }
     return running;
 }
 
 void VoleMachine::clearRegisters() {
-    for (auto &r : registers) {
+    for (auto& r : registers) {
         r.setValue("00");
     }
 }
@@ -52,9 +53,9 @@ void VoleMachine::displayRegisters() const {
     }
 }
 
-void VoleMachine::loadProgram(const string &filename) {
+void VoleMachine::loadProgram(const string& filename) {
     ifstream inputFile(filename, ios::in);
-    if (!inputFile){
+    if (!inputFile) {
         cerr << "File could not open!" << endl;
         exit(EXIT_FAILURE);
     }
@@ -62,21 +63,23 @@ void VoleMachine::loadProgram(const string &filename) {
     string command;
     short memoryIndex = 0;
 
-    while (inputFile >> command && memoryIndex < 256){
-        if (command.size() == 4){
-            string cell1 = command.substr(0,2);
+    while (inputFile >> command && memoryIndex < 256) {
+        if (command.size() == 4) {
+            string cell1 = command.substr(0, 2);
             string cell2 = command.substr(2);
 
             memoryManager.writeMemory(memoryIndex++, cell1);
 
-            if (memoryIndex < 256){
+            if (memoryIndex < 256) {
                 memoryManager.writeMemory(memoryIndex++, cell2);
-            } else{
+            }
+            else {
                 cerr << "Memory overflow!" << endl;
                 break;
             }
 
-        } else {
+        }
+        else {
             cerr << "Invalid command format: " << command << endl;
         }
     }
