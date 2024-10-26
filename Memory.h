@@ -1,22 +1,18 @@
-//
-// Created by Adham Hamdy on 10/4/2024.
-//
-
 #ifndef VOLE_MACHINE_MEMORY_H
 #define VOLE_MACHINE_MEMORY_H
-#include <string>
-#include <algorithm>
+
+#include <stdexcept>
+#include <iostream>
+
 using namespace std;
 
 class Memory {
 private:
-    string memoryCells[256];
+    string memory[256];
 public:
     Memory();
-    ~Memory();
-
-
-    friend class MemoryManager;
+    void setCell(const int&, const string&);
+    string getCell(const int&) const;
 };
 
 
