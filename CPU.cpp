@@ -73,6 +73,9 @@ bool CPU::executeInstruction(Memory* mem) {
 void CPU::decodeInstruction() const {
     char op_code = ir[0];
     switch (op_code) {
+        case '0':
+            cout << "NOTHING. Advance to the next step." << endl;
+            break;
         case '1':
             cout << "LOAD Register " << ir[1] << " with the content of memory at address " << ir.substr(2) << endl;
             break;

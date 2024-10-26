@@ -8,7 +8,8 @@ int main() {
     m.loadProgramFile("file.txt");
     m.displayStatus();
     cout << endl;
-
+    cout << endl;
+    p->displayRegisters();
     while (m.running){
         p->fetchInstruction(mem);
         p->decodeInstruction();
