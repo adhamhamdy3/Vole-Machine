@@ -21,6 +21,7 @@ public:
     ~CPU();
 
     void fetchInstruction(Memory*);
+    void decodeInstruction() const;
     bool executeInstruction(Memory*);
     void displayRegisters() const;
     void clearRegister() const;

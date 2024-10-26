@@ -69,3 +69,36 @@ bool CPU::executeInstruction(Memory* mem) {
     }
     return Machine::running;
 }
+
+void CPU::decodeInstruction() const {
+    char op_code = ir[0];
+    switch (op_code) {
+        case '1':
+            cout << "LOAD Register " << ir[1] << " with the content of memory at address " << ir.substr(2) << endl;
+            break;
+        case '2':
+            cout << "LOAD Register " << ir[1] << " with bit pattern " << ir.substr(2) << endl;
+            break;
+        case '3':
+            cout << "STORE the bit pattern of Register " << ir[1] << " in memory at address " << ir.substr(2) << endl;
+            break;
+        case '4':
+            cout << "MOVE the bit pattern of Register " << ir[2] << " A into Register " << ir[3] << endl;
+            break;
+        case '5':
+            cout << "ADD the bit patterns of Registers " << ir[2] <<  " and " << ir[3]
+                << " as if they were integers, and store the result in Register " << ir[1] << endl;
+            break;
+        case '6':
+            cout << "ADD the bit patterns of Registers " << ir[2] <<  " and " << ir[3]
+                 << " if they were floating point numbers, and store the result in Register " << ir[1] << endl;
+            break;
+        case 'B':
+            cout << "JUMP to the instruction located in memory at address " << ir.substr(2)
+                << " if the bit pattern in Register  " << ir[1] << " matches with the bit pattern in Register 0." << endl;
+            break;
+        case 'C':
+            cout << "HALT the execution." << endl;
+            break;
+    }
+}

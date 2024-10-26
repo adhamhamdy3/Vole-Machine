@@ -11,6 +11,7 @@ int main() {
 
     while (m.running){
         p->fetchInstruction(mem);
+        p->decodeInstruction();
         p->executeInstruction(mem);
     }
     cout << endl;
