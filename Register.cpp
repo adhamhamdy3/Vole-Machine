@@ -1,4 +1,5 @@
 #include "Register.h"
+#include "ALU.h"
 
 Register::Register() {
     fill(registers, registers + 16, "00");
@@ -8,9 +9,14 @@ void Register::setCell(const int &address, const string &value) {
     try {
         if (address < 0 || address > 15)
             throw out_of_range("Out of range! address must be between [0-15].");
-        //throw exception if the value is not valid
+
+        if (!ALU::isHex(value))
+            throw invalid_argument("Invalid value to be inserted!");
+
         registers[address] = value;
     } catch (const exception& e){
+        cerr << "Error: " << e.what() << endl;
+    } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
 
