@@ -1,16 +1,24 @@
-#include "VoleMachine.h"
 #include <iostream>
-using namespace std;
-int main() {
-    VoleMachine vmachine;
-    vmachine.loadProgram("file.txt");
-       do {
-        vmachine.fetchInstruction();
-        vmachine.executeInstruction();
-      } while (vmachine.executeInstruction());
-      cout << "==============================================================" << endl;
-   // vmachine.memoryManager.displayMemory();
-   //vmachine.displayRegisters();
+#include "Machine.h"
 
+int main() {
+    Machine m;
+    auto mem = m.memory;
+    auto p = m.processor;
+    m.loadProgramFile("file.txt");
+    m.displayStatus();
+    cout << endl;
+    cout << endl;
+    p->displayRegisters();
+    while (m.running){
+        p->fetchInstruction(mem);
+        p->decodeInstruction();
+        p->executeInstruction(mem);
+    }
+    cout << endl;
+
+    m.displayStatus();
+    cout << endl;
+    p->displayRegisters();
     return 0;
 }

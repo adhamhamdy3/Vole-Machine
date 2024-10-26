@@ -1,23 +1,20 @@
-//
-// Created by power on 10/6/2024.
-//
-
 #ifndef VOLE_MACHINE_CU_H
 #define VOLE_MACHINE_CU_H
 
+#include "Memory.h"
 
-class VoleMachine;
+class CPU;
+
 class CU {
 public:
-    static void load1(VoleMachine*);
-    static void load2(VoleMachine*);
-    static void store1(VoleMachine*);
-    static void store2(VoleMachine*);
-    static void move(VoleMachine*);
-    static void add1(VoleMachine*);
-    static void add2(VoleMachine*);
-    static void jump(VoleMachine*);
-
+    void load1(CPU*, Memory*);
+    void load2(CPU*);
+    void store1(CPU*, Memory*);
+    void store2(CPU*);
+    void move(CPU*);
+    void add1(CPU*);
+    void add2(CPU*);
+    void jump(CPU*);
 };
 
 

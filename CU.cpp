@@ -1,121 +1,114 @@
-//
-// Created by power on 10/6/2024.
-//
-
-#include "VoleMachine.h"
 #include "CU.h"
+#include "CPU.h"
 
-
-void CU::load1(VoleMachine* machine) {
+void CU::load1(CPU *cpuPtr, Memory *memPtr) {
     short regIndex, memIndex;
     string reg, mem;
 
-    reg = machine->ir[1];
-    mem = machine->ir.substr(2);
+    reg = cpuPtr->ir[1];
+    mem = cpuPtr->ir.substr(2);
 
-    regIndex = ALU::hexToDec(reg), memIndex = ALU::hexToDec(mem);
-    
-    string memValue = machine->memoryManager.readMemory(memIndex);
-    machine->registers[regIndex].setValue(memValue);
+    regIndex = cpuPtr->alu->hexToDec(reg), memIndex = cpuPtr->alu->hexToDec(mem);
+
+    string memValue = memPtr->getCell(memIndex);
+    cpuPtr->registers->setCell(regIndex, memValue);
 }
 
-void CU::load2(VoleMachine* machine) {
+void CU::load2(CPU *cpuPtr) {
     string reg, bit_pattern;
     short regIndex;
 
-    bit_pattern = machine->ir.substr(2);
+    bit_pattern = cpuPtr->ir.substr(2);
 
-    reg = machine->ir[1];
-    regIndex = ALU::hexToDec(reg);
+    reg = cpuPtr->ir[1];
+    regIndex = cpuPtr->alu->hexToDec(reg);
 
-    machine->registers[regIndex].setValue(bit_pattern);
+    cpuPtr->registers->setCell(regIndex, bit_pattern);
 }
 
-void CU::store1(VoleMachine* machine) {
+void CU::store1(CPU *cpuPtr, Memory *memPtr) {
     short regIndex, memIndex;
     string reg, mem, bit_pattern;
 
-    reg = machine->ir[1];
-    mem = machine->ir.substr(2);
+    reg = cpuPtr->ir[1];
+    mem = cpuPtr->ir.substr(2);
 
-    regIndex = ALU::hexToDec(reg), memIndex = ALU::hexToDec(mem);
+    regIndex = cpuPtr->alu->hexToDec(reg), memIndex = cpuPtr->alu->hexToDec(mem);
 
-    bit_pattern = machine->registers[regIndex].getValue();
+    bit_pattern = cpuPtr->registers->getCell(regIndex);
 
-    machine->memoryManager.writeMemory(memIndex, bit_pattern);
+    memPtr->setCell(memIndex, bit_pattern);
 }
 
-void CU::move(VoleMachine *machine) {
-    string reg1, reg2, carry;
-    short reg1_idx, reg2_idx;
-
-    reg1 = machine->ir[2], reg2 = machine->ir[3];
-    reg1_idx = ALU::hexToDec(reg1), reg2_idx = ALU::hexToDec(reg2);
-
-    carry = machine->registers[reg1_idx].getValue();
-    machine->registers[reg2_idx].setValue(carry);
-}
-
-//todo store 3.1 R00
-
-void CU::jump(VoleMachine* machine) {
-    string reg0, reg1, pattern;
-    short reg1_idx, reg2_idx, pattern_idx;
-    reg1 = machine->ir[1];
-    pattern = machine->ir.substr(2);
-    reg1_idx = ALU::hexToDec(reg1);
-    pattern_idx = ALU::hexToDec(pattern);
-    if (machine->registers[0].getValue() == machine->registers[reg1_idx].getValue()) {
-        machine->pc = pattern_idx;
-    }
-
-}
-
-void CU::store2(VoleMachine* machine) {
+void CU::store2(CPU *cpuPtr) {
     string reg;
     short reg_idx;
-    reg = machine->ir[1];
-    reg_idx = ALU::hexToDec(reg);
-    string value = machine->registers[reg_idx].getValue();
+    reg = cpuPtr->ir[1];
+    reg_idx = cpuPtr->alu->hexToDec(reg);
+    string value = cpuPtr->registers->getCell(reg_idx);
     cout << value << endl;
 }
 
-void CU::add1(VoleMachine* machine) {
+void CU::move(CPU *cpuPtr) {
+    string reg1, reg2, carry;
+    short reg1_idx, reg2_idx;
+
+    reg1 = cpuPtr->ir[2], reg2 = cpuPtr->ir[3];
+    reg1_idx = cpuPtr->alu->hexToDec(reg1), reg2_idx = cpuPtr->alu->hexToDec(reg2);
+
+    carry = cpuPtr->registers->getCell(reg1_idx);
+    cpuPtr->registers->setCell(reg2_idx, carry);
+}
+
+void CU::add1(CPU *cpuPtr) {
     int reg_num1, reg_num2, res_num;
     short reg1_index, reg2_index, res_index;
     string reg1, reg2, res;
 
-    reg1 = machine->ir[2];
-    reg2 = machine->ir[3];
-    res = machine->ir[1];
-    reg1_index = ALU::hexToDec(reg1) , reg2_index = ALU::hexToDec(reg2);
-    res_index = ALU::hexToDec(res);
+    reg1 = cpuPtr->ir[2];
+    reg2 = cpuPtr->ir[3];
+    res = cpuPtr->ir[1];
+    reg1_index = cpuPtr->alu->hexToDec(reg1) , reg2_index = cpuPtr->alu->hexToDec(reg2);
+    res_index = cpuPtr->alu->hexToDec(res);
 
-    reg_num1 = stoi(machine->registers[reg1_index].getValue(),0,16);
-    reg_num2 = stoi(machine->registers[reg2_index].getValue(),0,16);
+    reg_num1 = stoi(cpuPtr->registers->getCell(reg1_index), 0, 16);
+    reg_num2 = stoi(cpuPtr->registers->getCell(reg2_index), 0, 16);
+
     res_num = reg_num1 + reg_num2;
-
-    machine->registers[res_index].setValue(ALU::decToHex(res_num));
+    cpuPtr->registers->setCell(res_index, cpuPtr->alu->decToHex(res_num));
 }
 
-
-//add2
-
-void CU::add2(VoleMachine* machine) {
+void CU::add2(CPU *cpuPtr) {
     double reg_num1, reg_num2, res_num;
     short reg1_index, reg2_index, res_index;
     string reg1, reg2, res;
 
-    reg1 = machine->ir[2];
-    reg2 = machine->ir[3];
-    res = machine->ir[1];
-    reg1_index = ALU::hexToDec(reg1), reg2_index = ALU::hexToDec(reg2);
-    res_index = ALU::hexToDec(res);
+    reg1 = cpuPtr->ir[2];
+    reg2 = cpuPtr->ir[3];
+    res = cpuPtr->ir[1];
+    reg1_index = cpuPtr->alu->hexToDec(reg1), reg2_index = cpuPtr->alu->hexToDec(reg2);
+    res_index = cpuPtr->alu->hexToDec(res);
 
-    reg_num1 = ALU::hexToDecFloat(machine->registers[reg1_index].getValue());
-    reg_num2 = ALU::hexToDecFloat(machine->registers[reg2_index].getValue());
+    reg_num1 = cpuPtr->alu->hexToDecFloat(cpuPtr->registers->getCell(reg1_index));
+    reg_num2 = cpuPtr->alu->hexToDecFloat(cpuPtr->registers->getCell(reg2_index));
+
     res_num = reg_num1 + reg_num2;
 
-    machine->registers[res_index].setValue(ALU::decToHexFloat(res_num));
+    cpuPtr->registers->setCell(res_index, cpuPtr->alu->decToHexFloat(res_num));
+}
+
+void CU::jump(CPU *cpuPtr) {
+    string reg0, reg1, pattern;
+    short reg1_idx, pattern_idx;
+
+    reg1 = cpuPtr->ir[1];
+    pattern = cpuPtr->ir.substr(2);
+    reg1_idx = cpuPtr->alu->hexToDec(reg1);
+
+    pattern_idx = cpuPtr->alu->hexToDec(pattern);
+
+    if (cpuPtr->registers->getCell(0) == cpuPtr->registers->getCell(reg1_idx)) {
+        cpuPtr->pc = pattern_idx;
+    }
 }
 

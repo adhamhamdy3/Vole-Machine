@@ -1,7 +1,3 @@
-//
-// Created by power on 10/6/2024.
-//
-
 #include "ALU.h"
 
 short ALU::hexToDec(const string &hexValue) {
@@ -93,98 +89,86 @@ double ALU::hexToDecFloat(const string& hexValue) {
     // Combine the integer and fractional parts
     return intPart + fracPart;
 }
- bool ALU::isHex(const std::string& str) {
-    if (str.empty()) return false;
 
-    for (char ch : str) {
+bool ALU::isHex(const string &HEX) {
+    if (HEX.empty()) return false;
+
+    for (char ch : HEX) {
         if (!std::isxdigit(static_cast<unsigned char>(ch))) {
-            return false; 
+            return false;
         }
     }
-    return true; 
+    return true;
 }
 
+bool ALU::isValid(const string &ir) {
+    if (ir.length() != 4 or !ALU::isHex(ir.substr(1)) or ALU::containsLowerCaseHex(ir))
+        return false;
+
+    short memoryCell, register_idx1, register_idx2, register_idx3;
+    bool check1, check2, check3;
+
+    if (ir[0] == '1' or ir[0]=='3') {
+        register_idx1 = ALU::hexToDec(string(1, ir[1]));
+        memoryCell = ALU::hexToDec(ir.substr(2));
+
+        if (!ALU::isValidRegIdx(register_idx1) or !ALU::isValidMemIdx(memoryCell))
+            return false;
+
+    } else if (ir[0] == '2') {
+        register_idx1 = ALU::hexToDec(string(1, ir[1]));
+
+        if (!ALU::isValidRegIdx(register_idx1))
+            return false;
+    } else if (ir[0] == '4') {
+        if (ir[1] != '0') return false;
+
+        register_idx2 = ALU::hexToDec(string(1, ir[2]));
+        register_idx3 = ALU::hexToDec(string(1, ir[3]));
+
+        check1 = ALU::isValidRegIdx(register_idx2);
+        check2 = ALU::isValidRegIdx(register_idx3);
+
+        if (!check1 or !check2)
+            return false;
+    }
 
 
-bool ALU::isValidRegIdx(const short& regIdx) {
+    else if (ir[0] == '5' or ir[0] == '6') {
+        register_idx1 = ALU::hexToDec(string(1, ir[1]));
+        register_idx2 = ALU::hexToDec(string(1, ir[2]));
+        register_idx3 = ALU::hexToDec(string(1, ir[3]));
+
+        check1 = ALU::isValidRegIdx(register_idx1);
+        check2 = ALU::isValidRegIdx(register_idx2);
+        check3 = ALU::isValidRegIdx(register_idx3);
+
+        if (!check1 or !check2 or !check3)
+            return false;
+
+    } else if (ir[0] == 'B') {
+        short register_idx1 = ALU::hexToDec(string(1, ir[1]));
+
+        if (!ALU::isValidRegIdx(register_idx1))
+            return false;
+
+    } else if (ir[0] == 'C') {
+        if (ir != "C000")
+            return false;
+    } else
+        return false;
+
+    return true;
+}
+
+bool ALU::containsLowerCaseHex(const string &hexStr) {
+    return false;
+}
+
+bool ALU::isValidRegIdx(const short &regIdx) {
     return regIdx >= 0 and regIdx < 16;
 }
-bool ALU::isValidMemIdx(const short& memIdx) {
+
+bool ALU::isValidMemIdx(const short &memIdx) {
     return memIdx >= 0 and memIdx < 256;
-}
-
-bool ALU::containsLowerCaseHex(const string& hexStr) {
-    for (char ch : hexStr) {
-       
-        if (ch >= 'a' && ch <= 'f') {
-            return true;  
-        }
-    }
-    return false;  
-}
-
-
-
-bool ALU::isValid(const string& ir) {
-    
-        if (ir.length() != 4 or !ALU::isHex(ir.substr(1)) or ALU::containsLowerCaseHex(ir))
-            return 0;
-
-        short memoryCell, register_idx1, register_idx2, register_idx3;
-        bool check1, check2, check3;
-
-        if (ir[0] == '1' or ir[0]=='3') {
-             register_idx1 = ALU::hexToDec(std::string(1, ir[1]));
-             memoryCell = ALU::hexToDec(ir.substr(2));
-
-            if (!ALU::isValidRegIdx(register_idx1))
-                return 0;
-
-                if (!ALU::isValidMemIdx(memoryCell))
-                    return 0;
-            
-        }
-
-        else if (ir[0] == '2') {
-             register_idx1 = ALU::hexToDec(std::string(1, ir[1]));
-            if (!ALU::isValidRegIdx(register_idx1))
-                return 0;
-        }
-        else if (ir[0] == '4') {
-            if (ir[1] != '0')return 0;
-            register_idx2 = ALU::hexToDec(std::string(1, ir[2]));
-            register_idx3 = ALU::hexToDec(std::string(1, ir[3]));
-             check1 = ALU::isValidRegIdx(register_idx2);
-             check2 = ALU::isValidRegIdx(register_idx3);
-            if (!check1 or !check2)
-                return 0;
-
-        }
-
-
-        else if (ir[0] == '5' or ir[0] == '6') {
-             register_idx1 = ALU::hexToDec(std::string(1, ir[1]));
-             register_idx2 = ALU::hexToDec(std::string(1, ir[2]));
-             register_idx3 = ALU::hexToDec(std::string(1, ir[3]));
-             check1 = ALU::isValidRegIdx(register_idx1);
-             check2 = ALU::isValidRegIdx(register_idx2);
-             check3 = ALU::isValidRegIdx(register_idx3);
-            if (!check1 or !check2 or !check3)
-                return 0;
-        }
-        else if (ir[0] == 'B') {
-            short register_idx1 = ALU::hexToDec(std::string(1, ir[1]));
-
-            if (!ALU::isValidRegIdx(register_idx1))
-                return 0;
-        }
-        else if (ir[0] == 'C') {
-            if (ir != "C000")
-                return 0;
-        }
-        else
-            return 0;
-      
-    
-    return 1;
 }
