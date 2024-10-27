@@ -57,3 +57,19 @@ void Machine::displayStatus() const {
         }
     }
 }
+void Machine::inputInstruction(const string& command) {
+
+    static short memoryIndex = 0;
+
+    string cell1 = command.substr(0, 2);
+    string cell2 = command.substr(2);
+
+    if(memoryIndex<256)
+    memory->setCell(memoryIndex++, cell1);
+
+    if (memoryIndex < 256)
+        memory->setCell(memoryIndex++, cell2);
+
+    else 
+        memoryIndex = 0;
+}
