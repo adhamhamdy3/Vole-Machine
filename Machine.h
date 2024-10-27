@@ -14,6 +14,7 @@ public:
     void loadProgramFile(const string&);
     void clearMemory();
     void displayStatus() const;
+    void inputInstruction(const string&);
 
     ~Machine();
 };
