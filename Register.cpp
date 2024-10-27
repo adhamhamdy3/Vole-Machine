@@ -10,13 +10,11 @@ void Register::setCell(const int &address, const string &value) {
         if (address < 0 || address > 15)
             throw out_of_range("Out of range! address must be between [0-15].");
 
-        if (!ALU::isHex(value))
-            throw invalid_argument("Invalid value to be inserted!");
+//        if (!ALU::isHex(value))
+//            throw invalid_argument("Invalid value to be inserted!");
 
         registers[address] = value;
     } catch (const exception& e){
-        cerr << "Error: " << e.what() << endl;
-    } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
     }
 
