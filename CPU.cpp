@@ -44,6 +44,7 @@ bool CPU::executeInstruction(Memory* mem) {
             break;
         case '2':
             cu->load2(this);
+            break;
         case '3':
             if (ir.substr(2) != "00")
                 cu->store1(this, mem);
