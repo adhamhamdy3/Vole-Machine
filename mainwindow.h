@@ -21,12 +21,6 @@ public:
 private slots:
     void on_fetchButton_clicked();
 
-    void on_addInstructionBox_editingFinished();
-
-    void on_clearMemoryButton_clicked();
-
-    void on_addInstructionButton_clicked();
-
     void on_clearRegistersButton_clicked();
 
     void on_decodeButton_clicked();
@@ -34,10 +28,23 @@ private slots:
     void on_executeButton_clicked();
 
 
+    void on_addInstructionBox_editingFinished();
+
+    void on_addInstructionButton_clicked();
+
+    void on_clearScreenButton_clicked();
+
+    void on_clearMemoryButton_clicked();
+
+    void on_pcVeiwBox_editingFinished();
+
 private:
     Ui::VoleMachineSimulator *ui;
     Machine* machine;
-    void initMemory();
     void initRegisters();
+    void initMemory();
+    QString hexToBinary(const QString&);
+    int hexToInt(const QString&);
+    float hexToFloat(const QString&);
 };
 #endif // MAINWINDOW_H

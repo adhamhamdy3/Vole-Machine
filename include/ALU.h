@@ -16,6 +16,7 @@ public:
     string decToHex(int decimalValue);
     string decToHexFloat(double decimalValue);
     static bool isValid(const string&);
+    static bool isInt(const string&);
 
 };
 

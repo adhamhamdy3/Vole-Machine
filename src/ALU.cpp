@@ -172,3 +172,11 @@ bool ALU::isValidRegIdx(const short &regIdx) {
 bool ALU::isValidMemIdx(const short &memIdx) {
     return memIdx >= 0 and memIdx < 256;
 }
+
+bool ALU::isInt(const string &num){
+    for(const char& x : num){
+        if(!isdigit(x))
+            return false;
+    }
+    return true;
+}
