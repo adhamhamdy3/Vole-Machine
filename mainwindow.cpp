@@ -2,7 +2,13 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <string>
-
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
+#include <QDebug>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -363,5 +369,65 @@ void MainWindow::on_pcVeiwBox_editingFinished()
      else {
         QMessageBox::warning(this, "Invalid Input", "Please Enter a numeric value between [0, 255].");
     }
+}
+
+
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "Select Text File", "", "Text Files (*.txt);;All Files (*.*)");
+
+    if (!filePath.isEmpty()) {
+        qDebug() << "Selected file:" << filePath;
+
+        QFileInfo fileInfo(filePath);
+        QString fileName = fileInfo.fileName();
+
+
+        QFile file(filePath);
+        if (file.size() == 0) {
+            QMessageBox::warning(this, "Empty File", "The selected file is empty. Please select a different file.");
+            return;
+        }
+
+        std::string stdFileName = fileName.toStdString();
+
+
+        QString destinationPath = QDir::currentPath() + "/" + fileName;
+
+
+        if (QFile::exists(destinationPath)) {
+
+            if (!QFile::remove(destinationPath)) {
+                qDebug() << "Failed to remove the existing file.";
+                QMessageBox::warning(this, "File Error", "Failed to overwrite the existing file.");
+                return;
+            }
+        }
+
+
+        if (QFile::copy(filePath, destinationPath)) {
+            qDebug() << "File copied successfully to:" << destinationPath;
+        } else {
+            qDebug() << "Failed to copy the file.";
+            QMessageBox::warning(this, "File Error", "Failed to copy the file.");
+            return;
+        }
+
+        machine->loadProgramFile(stdFileName);
+        MainWindow::initMemory();
+
+        // Show success message
+        QMessageBox::information(this, "Load Successful", "The file was loaded successfully.");
+    }
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+    MainWindow::on_fetchButton_clicked();
+    MainWindow::on_decodeButton_clicked();
+    MainWindow::on_executeButton_clicked();
 }
 

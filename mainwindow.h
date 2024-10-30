@@ -38,6 +38,10 @@ private slots:
 
     void on_pcVeiwBox_editingFinished();
 
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
     Ui::VoleMachineSimulator *ui;
     Machine* machine;
