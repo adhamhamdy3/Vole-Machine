@@ -28,7 +28,6 @@ private slots:
     void on_executeButton_clicked();
 
 
-    void on_addInstructionBox_editingFinished();
 
     void on_addInstructionButton_clicked();
 

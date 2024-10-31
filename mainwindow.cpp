@@ -262,11 +262,12 @@ void MainWindow::on_executeButton_clicked()
 {
     machine->processor->executeInstruction(machine->memory);
     initRegisters();
-
+    initMemory();
     if(machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00"){
         std::string storeMsg = machine->processor->cu->value;
         ui->screenBox->setText(QString::fromStdString(storeMsg));
     }
+
 }
 // some issue in instruction 3R00,, check the .exe Simulator
 
@@ -293,30 +294,14 @@ float MainWindow::hexToFloat(const QString& hex) {
 
 
 
-void MainWindow::on_addInstructionBox_editingFinished()
-{
-    QString instruction = ui->addInstructionBox->text();
-    std::string instructionStr = instruction.toStdString();
-
-    bool valid = machine->processor->alu->isValid(instructionStr);
-
-    if (!ui->addInstructionBox->text().isEmpty() && valid) {
-
-        std::string inst = instruction.toStdString();
-
-        machine->inputInstruction(inst);
-
-        initMemory();
-    } else {
-        QMessageBox::warning(this, "Invalid Input", "Please enter a valid instruction.");
-    }
-}
 
 
 void MainWindow::on_addInstructionButton_clicked()
 {
     QString instruction = ui->addInstructionBox->text();
     std::string instructionStr = instruction.toStdString();
+
+
 
     bool valid = machine->processor->alu->isValid(instructionStr);
 
