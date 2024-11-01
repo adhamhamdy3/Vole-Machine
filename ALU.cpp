@@ -172,3 +172,9 @@ bool ALU::isValidRegIdx(const short &regIdx) {
 bool ALU::isValidMemIdx(const short &memIdx) {
     return memIdx >= 0 and memIdx < 256;
 }
+void ALU::upperInstruction( string& upper) {
+
+    for (int i = 0; i < upper.size(); i++) {
+        if (upper[i] >= 'a' and upper[i] <= 'f')upper[i] = toupper(upper[i]);
+    }
+}
