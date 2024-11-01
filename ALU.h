@@ -1,7 +1,12 @@
 #ifndef VOLE_MACHINE_ALU_H
 #define VOLE_MACHINE_ALU_H
-
+#include <iomanip>
 #include <sstream>
+#include <string>
+#include <cmath>
+#include <stdexcept>
+#include <bitset>
+#include <limits>
 using namespace std;
 
 class ALU {
