@@ -106,3 +106,10 @@ void CPU::decodeInstruction() const {
             break;
     }
 }
+
+
+void CPU::runOneCycle(Memory* mem){
+    CPU::fetchInstruction(mem);
+    CPU::decodeInstruction();
+    CPU::executeInstruction(mem);
+}
