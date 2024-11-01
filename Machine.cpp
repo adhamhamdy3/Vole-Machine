@@ -57,7 +57,7 @@ void Machine::displayStatus() const {
         }
     }
 }
-void Machine::inputInstruction(const string& command) {
+void Machine::inputInstruction(string& command) {
 
     static short memoryIndex = 0;
 
