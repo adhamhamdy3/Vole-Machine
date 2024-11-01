@@ -1,5 +1,4 @@
 #include <iostream>
-#include <limits>
 #include "Machine.h"
 
 class MainUI{
@@ -55,16 +54,6 @@ public:
 
 
 
-
-
-
-
-
-
-
-
-
-
 int main() {
     Machine m;
     auto mem = m.memory;
@@ -107,7 +96,12 @@ int main() {
                             break;
                         }
                         case 3 : {
-                            p->executeInstruction(mem);
+                            if (p->executeInstruction(mem)== false){
+                                run=false;
+                            }
+                            else{
+                                p->executeInstruction(mem);
+                            }
                             break;
                         }
                         case 4 :{
@@ -119,7 +113,15 @@ int main() {
                             break;
                         }
                         case 6 :{
-                            p->runOneCycle(mem);
+                            p->fetchInstruction(mem);
+                            p->decodeInstruction();
+                            if (p->executeInstruction(mem)==false){
+                                run=false;
+                            }
+                            else{
+                                p->executeInstruction(mem);
+                            }
+
                             break;
                         }
                         case 7:{
@@ -138,8 +140,13 @@ int main() {
 
                     }
                 }
+                if (p->executeInstruction(mem)== false){
+                    run=false;
+                }
+                else{
+                    run=true;
+                }
 
-                run=true;
                 break;
             }
             case 2: {
@@ -175,7 +182,12 @@ int main() {
                             break;
                         }
                         case  3 :{
-                            p->executeInstruction(mem);
+                            if (p->executeInstruction(mem)== false){
+                                run=false;
+                            }
+                            else{
+                                p->executeInstruction(mem);
+                            }
                             break;
                         }
                         case  4 :{
@@ -187,7 +199,15 @@ int main() {
                             break;
                         }
                         case  6 :{
-                            p->runOneCycle(mem);
+                            p->fetchInstruction(mem);
+                            p->decodeInstruction();
+                            if (p->executeInstruction(mem)==false){
+                                run=false;
+                            }
+                            else{
+                                p->executeInstruction(mem);
+                            }
+
                             break;
                         }
                         case 7:{
@@ -204,10 +224,18 @@ int main() {
                             break;
                         }
 
+
                     }
+
                 }
 
-                run=true;
+                if (p->executeInstruction(mem)== false){
+                    run=false;
+                }
+                else{
+                    run=true;
+                }
+
                 break;
             }
             case 5 : { // Exit
