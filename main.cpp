@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "Machine.h"
 
 class MainUI{
@@ -36,13 +37,31 @@ public:
         getline(cin, instruction);
         return instruction;
     }
-    char inputChoice() {
-        char choice;
+    short int inputChoice() {
+        short int choice;
         cout << "Choose an option: ";
         cin >> choice;
+        if (cin.fail() || choice < 1 || choice > 9) {
+            cout << "Invalid input! Please try again." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+            return -1;
+        }
         return choice;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -56,10 +75,14 @@ int main() {
 
 
         main.DisplayMenu();
-        char choice = main.inputChoice();
+        short int choice = main.inputChoice();
+        if (choice == -1) {
+            continue;
+        }
 
         switch (choice) {
-            case '1': {
+            case 1 : {
+
                 string fileName = main.inputFileName();
                 m.loadProgramFile(fileName);
                 while(run){
@@ -70,55 +93,64 @@ int main() {
                     cout<<"4-clear memory\n";
                     cout<<"5-clear registers\n";
                     cout<<"6-run one cycle\n";
-                    cout<<"7-Exit\n";
-                    char input=main.inputChoice();
+                    cout<<"7-Display Registers Status\n";
+                    cout<<"8-Display Memory Status\n";
+                    cout<<"9-Exit\n";
+                    short int input=main.inputChoice();
                     switch(input){
-                        case '1':{
+                        case 1:{
                             p->fetchInstruction(mem);
                             break;
                         }
-                        case '2':{
+                        case 2 :{
                             p->decodeInstruction();
                             break;
                         }
-                        case '3':{
+                        case 3 : {
                             p->executeInstruction(mem);
                             break;
                         }
-                        case '4':{
+                        case 4 :{
                             m.clearMemory();
                             break;
                         }
-                        case '5':{
+                        case 5 :{
                             p->clearRegister();
                             break;
                         }
-                        case '6':{
+                        case 6 :{
                             p->runOneCycle(mem);
                             break;
                         }
-                        case '7':{
+                        case 7:{
+                            p->displayRegisters();
+                            break;
+                        }
+                        case 8:{
+                            m.displayStatus();
+                            break;
+                        }
+                        case  9:{
                             cout<<"Exiting\n";
                             run = false;
                             break;
                         }
-                        default:
-                            cout << "Invalid choice. Please try again.\n";
+
                     }
                 }
 
                 run=true;
                 break;
             }
-            case '2': {
+            case 2: {
                 m.displayStatus();
                 break;
             }
-            case '3':{
+            case 3:{
                 p->displayRegisters();
                 break;
             }
-            case '4': {// take instruction from console
+            case 4: {// take instruction from console
                 string instruction = main.inputInstruction();
                 m.inputInstruction(instruction);
                 while(run){
@@ -129,56 +161,64 @@ int main() {
                     cout<<"4-clear memory\n";
                     cout<<"5-clear registers\n";
                     cout<<"6-run one cycle\n";
-                    cout<<"7-Exit\n";
-                    char input=main.inputChoice();
+                    cout<<"7-Display Registers Status\n";
+                    cout<<"8-Display Memory Status\n";
+                    cout<<"9-Exit\n";
+                    short int input=main.inputChoice();
                     switch(input){
-                        case '1':{
+                        case 1:{
                             p->fetchInstruction(mem);
                             break;
                         }
-                        case '2':{
+                        case 2 :{
                             p->decodeInstruction();
                             break;
                         }
-                        case '3':{
+                        case  3 :{
                             p->executeInstruction(mem);
                             break;
                         }
-                        case '4':{
+                        case  4 :{
                             m.clearMemory();
                             break;
                         }
-                        case '5':{
+                        case  5 :{
                             p->clearRegister();
                             break;
                         }
-                        case '6':{
+                        case  6 :{
                             p->runOneCycle(mem);
                             break;
                         }
-                        case '7':{
+                        case 7:{
+                            p->displayRegisters();
+                            break;
+                        }
+                        case 8:{
+                            m.displayStatus();
+                            break;
+                        }
+                        case  9:{
                             cout<<"Exiting\n";
                             run = false;
                             break;
                         }
-                        default:
-                            cout << "Invalid choice. Please try again.\n";
+
                     }
                 }
 
                 run=true;
                 break;
             }
-            case '5': { // Exit
+            case 5 : { // Exit
                 cout << "Exiting\n";
                 run= false;
                 break;
             }
             default:
-                cout << "Invalid choice. Please try again.\n";
+                cout<<"Invalid Input Please try again\n";
+
         }
     }
     return 0;
 }
-
-
