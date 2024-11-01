@@ -40,12 +40,13 @@ void CU::store1(CPU *cpuPtr, Memory *memPtr) {
     memPtr->setCell(memIndex, bit_pattern);
 }
 
-void CU::store2(CPU *cpuPtr) {
+void CU::store2(CPU* cpuPtr, Memory* memPtr) {
     string reg;
     short reg_idx;
     reg = cpuPtr->ir[1];
     reg_idx = cpuPtr->alu->hexToDec(reg);
     string value = cpuPtr->registers->getCell(reg_idx);
+    memPtr->setCell(0, value);
     cout << value << endl;
 }
 
@@ -111,4 +112,5 @@ void CU::jump(CPU *cpuPtr) {
         cpuPtr->pc = pattern_idx;
     }
 }
+
 
