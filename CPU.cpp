@@ -49,7 +49,7 @@ bool CPU::executeInstruction(Memory* mem) {
             if (ir.substr(2) != "00")
                 cu->store1(this, mem);
             else
-                cu->store2(this);
+                cu->store2(this, mem);
             break;
         case '4':
             cu->move(this);
