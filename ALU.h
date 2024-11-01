@@ -12,10 +12,12 @@ private:
 public:
     static bool isHex(const string&);
     static short hexToDec(const string&);
-    double hexToDecFloat(const string& hexValue);
-    string decToHex(int decimalValue);
-    string decToHexFloat(double decimalValue);
     static bool isValid(const string&);
+    int hexToTwosComplement(const string&);
+    string decimalToHexTwosComplement(int value);
+//--------------------------------------------------------
+    float  hexToFloat(const string& );
+    string floatToHex(float value);
 
 };
 
