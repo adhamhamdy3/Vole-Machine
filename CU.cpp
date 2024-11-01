@@ -71,15 +71,18 @@ void CU::add1(CPU *cpuPtr) {
     reg1_index = cpuPtr->alu->hexToDec(reg1) , reg2_index = cpuPtr->alu->hexToDec(reg2);
     res_index = cpuPtr->alu->hexToDec(res);
 
-    reg_num1 = stoi(cpuPtr->registers->getCell(reg1_index), 0, 16);
-    reg_num2 = stoi(cpuPtr->registers->getCell(reg2_index), 0, 16);
+    reg_num1 = cpuPtr->alu->hexToTwosComplement(cpuPtr->registers->getCell(reg1_index));
+    reg_num2 = cpuPtr->alu->hexToTwosComplement(cpuPtr->registers->getCell(reg2_index));
 
     res_num = reg_num1 + reg_num2;
-    cpuPtr->registers->setCell(res_index, cpuPtr->alu->decToHex(res_num));
+    cpuPtr->registers->setCell(res_index, cpuPtr->alu->decimalToHexTwosComplement(res_num));
 }
 
+
+
+
 void CU::add2(CPU *cpuPtr) {
-    double reg_num1, reg_num2, res_num;
+    float reg_num1, reg_num2, res_num;
     short reg1_index, reg2_index, res_index;
     string reg1, reg2, res;
 
@@ -89,12 +92,12 @@ void CU::add2(CPU *cpuPtr) {
     reg1_index = cpuPtr->alu->hexToDec(reg1), reg2_index = cpuPtr->alu->hexToDec(reg2);
     res_index = cpuPtr->alu->hexToDec(res);
 
-    reg_num1 = cpuPtr->alu->hexToDecFloat(cpuPtr->registers->getCell(reg1_index));
-    reg_num2 = cpuPtr->alu->hexToDecFloat(cpuPtr->registers->getCell(reg2_index));
+    reg_num1 = cpuPtr->alu->hexToFloat(cpuPtr->registers->getCell(reg1_index));
+    reg_num2 = cpuPtr->alu->hexToFloat(cpuPtr->registers->getCell(reg2_index));
 
     res_num = reg_num1 + reg_num2;
 
-    cpuPtr->registers->setCell(res_index, cpuPtr->alu->decToHexFloat(res_num));
+    cpuPtr->registers->setCell(res_index, cpuPtr->alu->floatToHex(res_num));
 }
 
 void CU::jump(CPU *cpuPtr) {
