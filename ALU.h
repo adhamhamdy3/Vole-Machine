@@ -6,7 +6,6 @@ using namespace std;
 
 class ALU {
 private:
-    static bool containsLowerCaseHex(const string& hexStr);
     static bool isValidRegIdx(const short&);
     static bool isValidMemIdx(const short&);
 public:
@@ -16,6 +15,7 @@ public:
     string decToHex(int decimalValue);
     string decToHexFloat(double decimalValue);
     static bool isValid(const string&);
+     static void upperInstruction(string&);
 
 };
 
