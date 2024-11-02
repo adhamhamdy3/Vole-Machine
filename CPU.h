@@ -7,6 +7,7 @@
 #include "Memory.h"
 
 class CU;
+class MainWindow;
 
 class CPU {
 private:
@@ -15,18 +16,21 @@ private:
     Register* registers;
     ALU* alu;
     CU* cu;
+    string decodeMessage;
 
 public:
+
     explicit CPU(ALU* = nullptr, CU* = nullptr, Register* = nullptr);
     ~CPU();
 
     void fetchInstruction(Memory*);
-    void decodeInstruction() const;
+    void decodeInstruction();
     bool executeInstruction(Memory*);
     void displayRegisters() const;
     void clearRegister() const;
     void runOneCycle(Memory*);
     friend class CU;
+    friend class MainWindow;
 };
 
 

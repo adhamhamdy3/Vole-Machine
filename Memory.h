@@ -10,6 +10,7 @@ class Memory {
 private:
     string memory[256];
 public:
+
     Memory();
     void setCell(const int&, const string&);
     string getCell(const int&) const;

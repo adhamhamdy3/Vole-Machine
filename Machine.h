@@ -5,17 +5,26 @@
 #include "CPU.h"
 #include <fstream>
 
+class MainWindow;
+
 class Machine {
 public:
     Machine();
+
+    static short memoryIndex;
     static bool running;
+
     Memory* memory;
     CPU* processor;
+
     void loadProgramFile(const string&);
     void clearMemory();
     void displayStatus() const;
+    void inputInstruction(const string&);
+
 
     ~Machine();
+    friend class MainWindow;
 };
 
 
