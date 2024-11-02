@@ -143,10 +143,15 @@ void MainWindow::initMemory(){
 
 void MainWindow::on_clearRegistersButton_clicked()
 {
-    machine->processor->clearRegister();
+    QMessageBox::StandardButton clear = QMessageBox::question(this, "Clear Registers",
+                                       "Are you sure about clearing all the registers?",
+                                       QMessageBox::Yes | QMessageBox::No);
 
-    initRegisters();
-    initMemory();
+    if(clear == QMessageBox::Yes){
+        machine->processor->clearRegister();
+        initRegisters();
+        initMemory();
+    }
 }
 
 void MainWindow::on_decodeButton_clicked()
@@ -240,6 +245,12 @@ void MainWindow::on_executeButton_clicked()
     initMemory();
     if(!machine->running){
         QMessageBox::information(this, "Done", "The execution has been halted.");
+        QMessageBox::StandardButton continueExe = QMessageBox::question(this, "Instruction Halted", "The last performed instruction resulted in a halt"
+                                                          " to the execution of the program. Are you"
+                                                          " want to perform the next operation?",
+                              QMessageBox::Yes | QMessageBox::No);
+
+        machine->running = (continueExe == QMessageBox::Yes);
     }
 
     if(machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00"){
@@ -248,7 +259,7 @@ void MainWindow::on_executeButton_clicked()
     }
     if(machine->processor->ir[0]=='B'){
         std::string newPc=to_string(machine->processor->pc);
-         ui->pcVeiwBox->setText(QString::fromStdString(newPc));
+        ui->pcVeiwBox->setText(QString::fromStdString(newPc));
     }
 }
 
@@ -296,32 +307,15 @@ void MainWindow::on_clearScreenButton_clicked()
 void MainWindow::on_clearMemoryButton_clicked()
 {
 
-    machine->clearMemory();
+    QMessageBox::StandardButton clear = QMessageBox::question(this, "Clear Memory",
+                                                              "Are you sure about clearing all the memory cells?",
+                                                              QMessageBox::Yes | QMessageBox::No);
 
-    initMemory();
-
+    if (clear == QMessageBox::Yes) {
+        machine->clearMemory();
+        initMemory();
+    }
 }
-
-// void MainWindow::on_pcVeiwBox_editingFinished()
-// {
-//     std::string value = ui->pcVeiwBox->text().toStdString();
-//     bool isHEX = machine->processor->alu->isHex(value);
-//     bool isINT = machine->processor->alu->isInt(value);
-
-//     if(isHEX || isINT){
-//         int x = machine->processor->alu->hexToDec(value);
-//         bool inRange = (x >= 0 && x < 256);
-//         if (inRange){
-//             machine->processor->pc = x;
-//         } else {
-//             QMessageBox::warning(this, "Invalid Input", "Please Enter a value between [0, 255].");
-
-//         }
-//     }
-//      else {
-//         QMessageBox::warning(this, "Invalid Input", "Please Enter a numeric value between [0, 255].");
-//     }
-// }
 
 void MainWindow::on_loadFileButton_clicked()
 {
@@ -391,23 +385,9 @@ void MainWindow::on_runUntillHaltButton_clicked()
             return;
         }
     }
-
     QMessageBox::information(this, "Done", "The execution has been halted.");
 
 }
-
-// void MainWindow::initAboutTab()
-// {
-//     QLabel *aboutLabel = new QLabel("Vole Machine Simulator\nVersion 1.0\nDeveloped by: [Your Name]\n"
-//                                     "This simulator mimics the operations of a virtual machine processor.", ui->aboutTab);
-//     aboutLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-//     aboutLabel->setWordWrap(true);
-
-//     QVBoxLayout *layout = new QVBoxLayout(ui->aboutTab);
-//     layout->addWidget(aboutLabel);
-//     ui->aboutTab->setLayout(layout);
-// }
-
 
 void MainWindow::on_aboutButton_clicked()
 {
@@ -431,31 +411,31 @@ void MainWindow::on_enterPC_Button_clicked() {
     bool isHEX = machine->processor->alu->isHex(value);
     bool isINT = machine->processor->alu->isInt(value);
 
- if (isINT) {
+    if (isINT) {
         int x = std::stoi(value);
         bool inRange = (x >= 0 && x < 256);
         if (inRange) {
             machine->processor->pc = x;
             QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
-           
+            Machine::running = true;
 
         } else {
             QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
         }
     }
 
- else if (isHEX) {
-     int x = machine->processor->alu->hexToDec(value);
-     bool inRange = (x >= 0 && x < 256);
-     if (inRange) {
-         machine->processor->pc = x;
-         QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
-       
+    else if (isHEX) {
+        int x = machine->processor->alu->hexToDec(value);
+        bool inRange = (x >= 0 && x < 256);
+        if (inRange) {
+            machine->processor->pc = x;
+            QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
+            Machine::running = true;
 
-     } else {
-         QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
-     }
- }
+        } else {
+            QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
+        }
+    }
 
 
     else {
@@ -463,5 +443,3 @@ void MainWindow::on_enterPC_Button_clicked() {
     }
 
 }
-
-
