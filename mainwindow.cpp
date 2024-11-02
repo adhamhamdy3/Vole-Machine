@@ -437,6 +437,7 @@ void MainWindow::on_enterPC_Button_clicked() {
         if (inRange) {
             machine->processor->pc = x;
             QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
+            Machine::running = true;
 
         } else {
             QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
@@ -449,6 +450,7 @@ void MainWindow::on_enterPC_Button_clicked() {
      if (inRange) {
          machine->processor->pc = x;
          QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
+         Machine::running = true;
 
      } else {
          QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
