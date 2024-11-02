@@ -88,6 +88,7 @@ void handleSubMenu(Machine &m, CPU *p, Memory *mem, MainUI &main) {
                 break;
             case RUN_CYCLE:
                 m.processor->runOneCycle(mem);
+                if(!m.running)subMenuRun = false;
                 break;
             case DISPLAY_REGISTERS:
                 p->displayRegisters();
