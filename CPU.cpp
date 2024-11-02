@@ -66,7 +66,7 @@ bool CPU::executeInstruction(Memory* mem) {
             cu->jump(this);
             break;
         case 'C':
-            cout << "Exit..." << endl;
+          //  cout << "Exit..." << endl;
             Machine::running = false;
 
     }
