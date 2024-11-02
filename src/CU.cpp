@@ -29,7 +29,7 @@ void CU::store1(CPU *cpuPtr, Memory *memPtr) {
 
 void CU::store2(CPU *cpuPtr, Memory* memPtr) {
     store1(cpuPtr, memPtr);
-    cout << memPtr->getCell(0) << endl;
+    value=memPtr->getCell(0);
 }
 
 void CU::move(CPU *cpuPtr) {
