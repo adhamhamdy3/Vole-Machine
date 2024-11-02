@@ -28,6 +28,7 @@ public:
     bool executeInstruction(Memory*);
     void displayRegisters() const;
     void clearRegister() const;
+    void runOneCycle(Memory*);
     friend class CU;
     friend class MainWindow;
 };

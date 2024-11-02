@@ -16,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     , machine(new Machine())
 {
     ui->setupUi(this);
+
     ui->pcVeiwBox->setText("0");
+
     initRegisters();
     initMemory();
 }
@@ -24,19 +26,19 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete machine;
-    delete ui->MainMemoryTable;
     delete ui;
 }
 
 void MainWindow::on_fetchButton_clicked()
 {
     machine->processor->fetchInstruction(machine->memory);
+
     std::string pc = to_string(machine->processor->pc);
     ui->pcVeiwBox->setText(QString::fromStdString(pc));
+
     ui->decodeButton->setEnabled(true);
     ui->executeButton->setEnabled(false);
 }
-
 
 void MainWindow::initRegisters(){
     ui->registersTable->clearContents();
@@ -49,30 +51,23 @@ void MainWindow::initRegisters(){
 
     ui->registersTable->setRowCount(16);
 
-    ui->registersTable->setColumnWidth(0, 60);  // Address
-    ui->registersTable->setColumnWidth(1, 100); // Binary
-    ui->registersTable->setColumnWidth(2, 60);  // Hex
-    ui->registersTable->setColumnWidth(3, 40);  // Int
-    ui->registersTable->setColumnWidth(4, 100);  // Floating
+    ui->registersTable->setColumnWidth(0, 60);
+    ui->registersTable->setColumnWidth(1, 100);
+    ui->registersTable->setColumnWidth(2, 60);
+    ui->registersTable->setColumnWidth(3, 40);
+    ui->registersTable->setColumnWidth(4, 100);
 
     for (int i = 0; i < 16; ++i) {
-        // Address in hexadecimal format
         QString address = QString::number(i, 16).rightJustified(2, '0').toUpper();
 
-        // Hexadecimal value from memory array
-        QString hexValue = QString::fromStdString(machine->processor->registers->getCell(i));  // Replace machine->memory with your actual memory array reference
+        QString hexValue = QString::fromStdString(machine->processor->registers->getCell(i));
 
-        // Binary value converted from hex
         QString binary = hexToBinary(hexValue);
 
-        // Integer value converted from hex
-        int intValue = hexToInt(hexValue);
+        int intValue = ALU::hexToDec(hexValue.toStdString());
 
-        // Floating-point value converted from hex
-        float floatingValue = hexToFloat(hexValue);
+        float floatingValue = ALU::hexToFloat(hexValue.toStdString());
 
-        // Populate table cells
-        // Populate table cells and set text alignment to center
         QTableWidgetItem *addressItem = new QTableWidgetItem(address);
         addressItem->setTextAlignment(Qt::AlignCenter);
         ui->registersTable->setItem(i, 0, addressItem);
@@ -95,7 +90,6 @@ void MainWindow::initRegisters(){
     }
 }
 
-
 void MainWindow::initMemory(){
     ui->MainMemoryTable->clearContents();
 
@@ -107,30 +101,23 @@ void MainWindow::initMemory(){
 
     ui->MainMemoryTable->setRowCount(256);
 
-    ui->MainMemoryTable->setColumnWidth(0, 60);  // Address
-    ui->MainMemoryTable->setColumnWidth(1, 100); // Binary
-    ui->MainMemoryTable->setColumnWidth(2, 60);  // Hex
-    ui->MainMemoryTable->setColumnWidth(3, 40);  // Int
-    ui->MainMemoryTable->setColumnWidth(4, 100);  // Floating
+    ui->MainMemoryTable->setColumnWidth(0, 60);
+    ui->MainMemoryTable->setColumnWidth(1, 100);
+    ui->MainMemoryTable->setColumnWidth(2, 60);
+    ui->MainMemoryTable->setColumnWidth(3, 40);
+    ui->MainMemoryTable->setColumnWidth(4, 100);
 
     for (int i = 0; i < 256; ++i) {
-        // Address in hexadecimal format
         QString address = QString::number(i, 16).rightJustified(2, '0').toUpper();
 
-        // Hexadecimal value from memory array
-        QString hexValue = QString::fromStdString(machine->memory->getCell(i));  // Replace machine->memory with your actual memory array reference
+        QString hexValue = QString::fromStdString(machine->memory->getCell(i));
 
-        // Binary value converted from hex
         QString binary = hexToBinary(hexValue);
 
-        // Integer value converted from hex
-        int intValue = hexToInt(hexValue);
+        int intValue = ALU::hexToDec(hexValue.toStdString());
 
-        // Floating-point value converted from hex
-        float floatingValue = hexToFloat(hexValue);
+        float floatingValue = ALU::hexToFloat(hexValue.toStdString());
 
-        // Populate table cells
-        // Populate table cells and set text alignment to center
         QTableWidgetItem *addressItem = new QTableWidgetItem(address);
         addressItem->setTextAlignment(Qt::AlignCenter);
         ui->MainMemoryTable->setItem(i, 0, addressItem);
@@ -154,10 +141,6 @@ void MainWindow::initMemory(){
 
 }
 
-
-
-
-
 void MainWindow::on_clearRegistersButton_clicked()
 {
     machine->processor->clearRegister();
@@ -165,13 +148,6 @@ void MainWindow::on_clearRegistersButton_clicked()
     initRegisters();
     initMemory();
 }
-
-
-
-
-
-
-
 
 void MainWindow::on_decodeButton_clicked()
 {
@@ -257,51 +233,42 @@ void MainWindow::on_decodeButton_clicked()
     ui->executeButton->setEnabled(true);
 }
 
-
 void MainWindow::on_executeButton_clicked()
 {
     machine->processor->executeInstruction(machine->memory);
     initRegisters();
     initMemory();
+    if(!machine->running){
+        QMessageBox::information(this, "Done", "The execution has been halted.");
+    }
+
     if(machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00"){
         std::string storeMsg = machine->processor->cu->value;
         ui->screenBox->setText(QString::fromStdString(storeMsg));
     }
-
 }
-// some issue in instruction 3R00,, check the .exe Simulator
 
-
-// Convert hex string to binary string
 QString MainWindow::hexToBinary(const QString& hex) {
     bool ok;
-    int hexValue = hex.toInt(&ok, 16);  // Convert hex to integer
-    return QString::number(hexValue, 2).rightJustified(8, '0');  // Convert to binary and pad to 8 bits
+    int hexValue = hex.toInt(&ok, 16);
+    return QString::number(hexValue, 2).rightJustified(8, '0');
 }
 
-// Convert hex string to integer
-int MainWindow::hexToInt(const QString& hex) {
-    bool ok;
-    return hex.toInt(&ok, 16);  // Convert hex to integer
-}
+// int MainWindow::hexToInt(const QString& hex) {
+//     bool ok;
+//     return hex.toInt(&ok, 16);
+// }
 
-// Convert hex string to floating point
-float MainWindow::hexToFloat(const QString& hex) {
-    bool ok;
-    int intValue = hex.toInt(&ok, 16);  // Convert hex to integer
-    return *reinterpret_cast<float*>(&intValue);  // Interpret the integer bits as a float
-}
-
-
-
-
+// float MainWindow::hexToFloat(const QString& hex) {
+//     bool ok;
+//     int intValue = hex.toInt(&ok, 16);
+//     return *reinterpret_cast<float*>(&intValue);
+// }
 
 void MainWindow::on_addInstructionButton_clicked()
 {
     QString instruction = ui->addInstructionBox->text();
     std::string instructionStr = instruction.toStdString();
-
-
 
     bool valid = machine->processor->alu->isValid(instructionStr);
 
@@ -317,13 +284,10 @@ void MainWindow::on_addInstructionButton_clicked()
     }
 }
 
-
 void MainWindow::on_clearScreenButton_clicked()
 {
     ui->screenBox->clear();
 }
-
-
 
 void MainWindow::on_clearMemoryButton_clicked()
 {
@@ -334,32 +298,28 @@ void MainWindow::on_clearMemoryButton_clicked()
 
 }
 
+// void MainWindow::on_pcVeiwBox_editingFinished()
+// {
+//     std::string value = ui->pcVeiwBox->text().toStdString();
+//     bool isHEX = machine->processor->alu->isHex(value);
+//     bool isINT = machine->processor->alu->isInt(value);
 
-void MainWindow::on_pcVeiwBox_editingFinished()
-{
-    std::string value = ui->pcVeiwBox->text().toStdString();
-    bool isHEX = machine->processor->alu->isHex(value);
-    bool isINT = machine->processor->alu->isInt(value);
+//     if(isHEX || isINT){
+//         int x = machine->processor->alu->hexToDec(value);
+//         bool inRange = (x >= 0 && x < 256);
+//         if (inRange){
+//             machine->processor->pc = x;
+//         } else {
+//             QMessageBox::warning(this, "Invalid Input", "Please Enter a value between [0, 255].");
 
-    if(isHEX || isINT){
-        int x = machine->processor->alu->hexToDec(value);
-        bool inRange = (x >= 0 && x < 256);
-        if (inRange){
-            machine->processor->pc = x;
-        } else {
-            QMessageBox::warning(this, "Invalid Input", "Please Enter a value between [0, 255].");
+//         }
+//     }
+//      else {
+//         QMessageBox::warning(this, "Invalid Input", "Please Enter a numeric value between [0, 255].");
+//     }
+// }
 
-        }
-    }
-     else {
-        QMessageBox::warning(this, "Invalid Input", "Please Enter a numeric value between [0, 255].");
-    }
-}
-
-
-
-
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_loadFileButton_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Select Text File", "", "Text Files (*.txt);;All Files (*.*)");
 
@@ -403,16 +363,90 @@ void MainWindow::on_pushButton_2_clicked()
         machine->loadProgramFile(stdFileName);
         MainWindow::initMemory();
 
-        // Show success message
         QMessageBox::information(this, "Load Successful", "The file was loaded successfully.");
     }
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_runOneCycleButton_clicked()
 {
     MainWindow::on_fetchButton_clicked();
     MainWindow::on_decodeButton_clicked();
     MainWindow::on_executeButton_clicked();
 }
+
+void MainWindow::on_runUntillHaltButton_clicked()
+{
+    short i = 0;
+
+    while (machine->running) {
+        MainWindow::on_runOneCycleButton_clicked();
+        if(i++ >= 256){
+            QMessageBox::warning(this, "Memory limit reached", "The execution has reached the end of the memory.");
+            ui->pcVeiwBox->setText("0");
+            machine->processor->pc = 0;
+            return;
+        }
+    }
+
+    QMessageBox::information(this, "Done", "The execution has been halted.");
+
+}
+
+// void MainWindow::initAboutTab()
+// {
+//     QLabel *aboutLabel = new QLabel("Vole Machine Simulator\nVersion 1.0\nDeveloped by: [Your Name]\n"
+//                                     "This simulator mimics the operations of a virtual machine processor.", ui->aboutTab);
+//     aboutLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+//     aboutLabel->setWordWrap(true);
+
+//     QVBoxLayout *layout = new QVBoxLayout(ui->aboutTab);
+//     layout->addWidget(aboutLabel);
+//     ui->aboutTab->setLayout(layout);
+// }
+
+
+void MainWindow::on_aboutButton_clicked()
+{
+    QMessageBox::about(this, "About Vole Machine Simulator",
+                       "<h2>Vole Machine Simulator</h2>"
+                       "<p>This simulator mimics the operations of a virtual machine processor.</p>"
+                       "<p><b>Created by:</b><br>"
+                       "Ahmed Attia - 20230027<br>"
+                       "Adham Hamdy - 20230043<br>"
+                       "Youssef Bahaa - 20230487</p>"
+                       "<p><b>Assignment:</b> Assignment 1, Task 4 - Object-Oriented Programming (CS213)</p>"
+                       "<p><b>Instructor:</b> Dr. Mohamed El-Ramly</p>"
+                       "<p><b>College:</b> Faculty of Computers and Artificial Intelligence - Cairo University</p>"
+                       "<p><b>Vole Machine Description:</b><br>Refer to CS111 materials and 'CS: An Overview' book for details on the Vole machine and language.</p>");
+
+}
+
+
+void MainWindow::on_enterPC_Button_clicked() {
+    std::string value = ui->pcVeiwBox->text().toStdString();
+    bool isHEX = machine->processor->alu->isHex(value);
+    bool isINT = machine->processor->alu->isInt(value);
+
+    if (isHEX) {
+        int x = machine->processor->alu->hexToDec(value);
+        bool inRange = (x >= 0 && x < 256);
+        if (inRange) {
+            machine->processor->pc = x;
+        } else {
+            QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
+        }
+    } else if (isINT) {
+        int x = std::stoi(value);
+        bool inRange = (x >= 0 && x < 256);
+        if (inRange) {
+            machine->processor->pc = x;
+        } else {
+            QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
+        }
+    } else {
+        QMessageBox::warning(this, "Invalid Input", "Please enter a numeric value (hexadecimal or integer) between [0, 255].");
+    }
+
+}
+
 
