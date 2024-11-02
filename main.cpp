@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void handleSubMenu(Machine &m, CPU *p, Memory *mem, MainUI &main);
+void handleSubMenu(Machine& m, CPU* p, Memory* mem, MainUI& main);
 
 int main() {
     Machine m;
@@ -20,30 +20,30 @@ int main() {
         if (choice == -1) continue;
 
         switch (choice) {
-            case LOAD_FILE: {
-                string fileName = main.inputFileName();
-                m.loadProgramFile(fileName);
-                handleSubMenu(m, p, mem, main);
-                break;
-            }
-            case DISPLAY_MEMORY_STATUS:
-                m.displayStatus();
-                break;
-            case DISPLAY_REGISTERS_STATUS:
-                p->displayRegisters();
-                break;
-            case INPUT_INSTRUCTION: {
-                string instruction = main.inputInstruction();
-                m.inputInstruction(instruction);
-                handleSubMenu(m, p, mem, main);
-                break;
-            }
-            case EXIT_PROGRAM:
-                cout << "Exiting...\n";
-                run = false;
-                break;
-            default:
-                cout << "Invalid Input! Please try again.\n";
+        case LOAD_FILE: {
+            string fileName = main.inputFileName();
+            m.loadProgramFile(fileName);
+            handleSubMenu(m, p, mem, main);
+            break;
+        }
+        case DISPLAY_MEMORY_STATUS:
+            m.displayStatus();
+            break;
+        case DISPLAY_REGISTERS_STATUS:
+            p->displayRegisters();
+            break;
+        case INPUT_INSTRUCTION: {
+            string instruction = main.inputInstruction();
+            m.inputInstruction(instruction);
+            handleSubMenu(m, p, mem, main);
+            break;
+        }
+        case EXIT_PROGRAM:
+            cout << "Exiting...\n";
+            run = false;
+            break;
+        default:
+            cout << "Invalid Input! Please try again.\n";
         }
     }
 
@@ -51,7 +51,7 @@ int main() {
 }
 
 
-void handleSubMenu(Machine &m, CPU *p, Memory *mem, MainUI &main) {
+void handleSubMenu(Machine& m, CPU* p, Memory* mem, MainUI& main) {
     bool subMenuRun = true;
 
     while (subMenuRun) {
@@ -71,45 +71,45 @@ void handleSubMenu(Machine &m, CPU *p, Memory *mem, MainUI &main) {
         if (subChoice == -1) continue;
 
         switch (subChoice) {
-            case FETCH:
-                p->fetchInstruction(mem);
-                break;
-            case DECODE:
-                p->decodeInstruction();
-                break;
-            case EXECUTE:
-                if (!p->executeInstruction(mem)) subMenuRun = false;
-                break;
-            case CLEAR_MEMORY:
-                m.clearMemory();
-                break;
-            case CLEAR_REGISTERS:
-                p->clearRegister();
-                break;
-            case RUN_CYCLE:
-                m.processor->runOneCycle(mem);
-                break;
-            case DISPLAY_REGISTERS:
-                p->displayRegisters();
-                break;
-            case DISPLAY_MEMORY:
-                m.displayStatus();
-                break;
-            case INPUT_INSTRUCTION_CONSOLE: {
-                string instruction = main.inputInstruction();
-                m.inputInstruction(instruction);
-                break;
-            }
-            case EXIT_SUBMENU:
-                cout << "Exiting sub-menu...\n";
-                subMenuRun = false;
-                break;
-            default:
-                cout << "Invalid Input! Please try again.\n";
+        case FETCH:
+            p->fetchInstruction(mem);
+            break;
+        case DECODE:
+            p->decodeInstruction();
+            break;
+        case EXECUTE:
+            if (!p->executeInstruction(mem)) subMenuRun = false;
+            break;
+        case CLEAR_MEMORY:
+            m.clearMemory();
+            break;
+        case CLEAR_REGISTERS:
+            p->clearRegister();
+            break;
+        case RUN_CYCLE:
+            m.processor->runOneCycle(mem);
+            if(!m.running)subMenuRun = false;
+            break;
+        case DISPLAY_REGISTERS:
+            p->displayRegisters();
+            break;
+        case DISPLAY_MEMORY:
+            m.displayStatus();
+            break;
+        case INPUT_INSTRUCTION_CONSOLE: {
+            string instruction = main.inputInstruction();
+            m.inputInstruction(instruction);
+            break;
+        }
+        case EXIT_SUBMENU:
+            cout << "Exiting sub-menu...\n";
+            subMenuRun = false;
+            break;
+        default:
+            cout << "Invalid Input! Please try again.\n";
         }
     }
 }
-
 
 
 
