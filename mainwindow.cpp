@@ -33,8 +33,8 @@ void MainWindow::on_fetchButton_clicked()
 {
     machine->processor->fetchInstruction(machine->memory);
 
-    std::string pc = to_string(machine->processor->pc);
-    ui->pcVeiwBox->setText(QString::fromStdString(pc));
+    std::string pcHex = ALU::decToHex(machine->processor->pc);
+    ui->pcVeiwBox->setText(QString::fromStdString(pcHex));
 
     ui->decodeButton->setEnabled(true);
     ui->executeButton->setEnabled(false);
@@ -246,6 +246,10 @@ void MainWindow::on_executeButton_clicked()
         std::string storeMsg = machine->processor->cu->value;
         ui->screenBox->setText(QString::fromStdString(storeMsg));
     }
+    if(machine->processor->ir[0]=='B'){
+        std::string newPc=to_string(machine->processor->pc);
+         ui->pcVeiwBox->setText(QString::fromStdString(newPc));
+    }
 }
 
 QString MainWindow::hexToBinary(const QString& hex) {
@@ -427,23 +431,32 @@ void MainWindow::on_enterPC_Button_clicked() {
     bool isHEX = machine->processor->alu->isHex(value);
     bool isINT = machine->processor->alu->isInt(value);
 
-    if (isHEX) {
-        int x = machine->processor->alu->hexToDec(value);
-        bool inRange = (x >= 0 && x < 256);
-        if (inRange) {
-            machine->processor->pc = x;
-        } else {
-            QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
-        }
-    } else if (isINT) {
+ if (isINT) {
         int x = std::stoi(value);
         bool inRange = (x >= 0 && x < 256);
         if (inRange) {
             machine->processor->pc = x;
+            QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
+
         } else {
             QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
         }
-    } else {
+    }
+
+ else if (isHEX) {
+     int x = machine->processor->alu->hexToDec(value);
+     bool inRange = (x >= 0 && x < 256);
+     if (inRange) {
+         machine->processor->pc = x;
+         QMessageBox::information(this, "PC Updated", "PC is updated successfully.");
+
+     } else {
+         QMessageBox::warning(this, "Invalid Input", "Please enter a value between [0, 255].");
+     }
+ }
+
+
+    else {
         QMessageBox::warning(this, "Invalid Input", "Please enter a numeric value (hexadecimal or integer) between [0, 255].");
     }
 
