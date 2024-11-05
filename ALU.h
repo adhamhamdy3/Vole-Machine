@@ -24,9 +24,6 @@ public:
     string decimalToHexTwosComplement(int value);
     float  hexToFloat(const string&);
     string floatToHex(float value);
-    double hexToDecFloat(const string& hexValue);
-    string decToHex(int decimalValue);
-    string decToHexFloat(double decimalValue);
     static bool isInt(const string&);
 
 };
