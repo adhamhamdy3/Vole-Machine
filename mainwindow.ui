@@ -504,7 +504,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>22</x>
@@ -570,7 +570,7 @@
        <property name="styleSheet">
         <string notr="true">QPushButton {
     background-color: rgb(244, 67, 54);   
-    color: white;                   
+    color: black;                   
 }
 
 
@@ -586,7 +586,7 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>872</x>

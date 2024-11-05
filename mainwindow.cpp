@@ -149,8 +149,8 @@ void MainWindow::initMemory(){
         if(machine->memory->getCell(i) != "00"){
             setRowColor(ui->MainMemoryTable, i, lightYellow, black);
         } if (machine->memory->getCell(i) == "C0"){
-            setRowColor(ui->MainMemoryTable, i, red, white);
-            setRowColor(ui->MainMemoryTable, i+1, red, white);
+            setRowColor(ui->MainMemoryTable, i, red, black);
+            setRowColor(ui->MainMemoryTable, i+1, red, black);
 
         }
     }
