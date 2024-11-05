@@ -346,153 +346,6 @@
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>550</y>
-      <width>1091</width>
-      <height>43</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_6">
-     <property name="sizeConstraint">
-      <enum>QLayout::SizeConstraint::SetNoConstraint</enum>
-     </property>
-     <item>
-      <widget class="QPushButton" name="loadFileButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Load File</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>698</width>
-         <height>26</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="aboutButton">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>About</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="Exit">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: #f44336;      /* Green color /
-    color: white;                   / Text color /
-    border: none;                   / No border /
-    padding: 10px 20px;             / Padding /
-    border-radius: 5px;             / Rounded corners /
-    font-size: 16px;                / Font size /
-}
-
-QPushButton:hover {
-    background-color: #d32f2f;      / Darker green on hover /
-}
-
-QPushButton:pressed {
-    background-color: #b71c1c;      / Even darker green when pressed */
-}</string>
-       </property>
-       <property name="text">
-        <string>Exit</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>870</x>
-      <y>443</y>
-      <width>241</width>
-      <height>67</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_12">
-     <item>
-      <widget class="QPushButton" name="runOneCycleButton">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: #4CAF50;      /* Green color /
-    color: white;                   / Text color /
-    border: none;                   / No border /
-    padding: 10px 20px;             / Padding /
-    border-radius: 5px;             / Rounded corners /
-    font-size: 16px;                / Font size /
-}
-
-QPushButton:hover {
-    background-color: #45a049;      / Darker green on hover /
-}
-
-QPushButton:pressed {
-    background-color: #3e8e41;      / Even darker green when pressed */
-}</string>
-       </property>
-       <property name="text">
-        <string>Run One Cycle</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="runUntillHaltButton">
-       <property name="styleSheet">
-        <string notr="true">QPushButton {
-    background-color: #4CAF50;      /* Green color /
-    color: white;                   / Text color /
-    border: none;                   / No border /
-    padding: 10px 20px;             / Padding /
-    border-radius: 5px;             / Rounded corners /
-    font-size: 16px;                / Font size /
-}
-
-QPushButton:hover {
-    background-color: #45a049;      / Darker green on hover /
-}
-
-QPushButton:pressed {
-    background-color: #3e8e41;      / Even darker green when pressed */
-}</string>
-       </property>
-       <property name="text">
-        <string>Run Untill Halt</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
       <x>1060</x>
       <y>150</y>
       <width>49</width>
@@ -573,7 +426,7 @@ QPushButton:pressed {
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>871</x>
@@ -648,6 +501,148 @@ QPushButton:pressed {
         </widget>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>22</x>
+      <y>552</y>
+      <width>1091</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QPushButton" name="loadFileButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Load File</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>698</width>
+         <height>26</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="aboutButton">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>About</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Exit">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>25</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: rgb(244, 67, 54);   
+    color: white;                   
+}
+
+
+
+QPushButton:pressed {
+    background-color: #b71c1c;    
+}</string>
+       </property>
+       <property name="text">
+        <string>Exit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>872</x>
+      <y>452</y>
+      <width>241</width>
+      <height>67</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_12">
+     <item>
+      <widget class="QPushButton" name="runOneCycleButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: rgb(76, 175, 80);     
+    color: rgb(255, 255, 255);                   
+                     
+            
+}
+
+QPushButton:hover {
+    background-color: rgb(69, 160, 73); 
+	color: white;
+}
+
+QPushButton:pressed {
+    background-color: rgb(62, 142, 65);
+	color:white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Run One Cycle</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="runUntillHaltButton">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: rgb(76, 175, 80);     
+    color: rgb(255, 255, 255);                           
+}
+
+QPushButton:hover {
+    background-color: rgb(69, 160, 73); 
+	color: white;
+}
+
+QPushButton:pressed {
+    background-color: rgb(62, 142, 65);
+	color:white;
+}</string>
+       </property>
+       <property name="text">
+        <string>Run Untill Halt</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

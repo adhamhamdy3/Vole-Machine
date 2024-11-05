@@ -22,7 +22,8 @@ bool ALU::isHex(const string& HEX) {
     return true;
 }
 
-bool ALU::isValid(const string &ir) {
+bool ALU::isValid(string &ir) {
+    upperInstruction(ir);
     if (ir.length() != 4 or !ALU::isHex(ir.substr(1)))
         return false;
 

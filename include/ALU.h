@@ -18,7 +18,7 @@ private:
 public:
     static bool isHex(const string&);
     static short hexToDec(const string&);
-    static bool isValid(const string&);
+    static bool isValid(string&);
     static void upperInstruction(string&);
     int hexToTwosComplement(const string&);
     string decimalToHexTwosComplement(int value);

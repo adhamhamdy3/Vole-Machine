@@ -9,6 +9,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 #include <QDir>
+#include <QColor>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,8 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pcVeiwBox->setText("0");
 
+
     initRegisters();
     initMemory();
+    setRowColor(ui->MainMemoryTable, 0);
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +41,8 @@ void MainWindow::on_fetchButton_clicked()
 
     ui->decodeButton->setEnabled(true);
     ui->executeButton->setEnabled(false);
+    initMemory();
+    setRowColor(ui->MainMemoryTable, machine->processor->pc);
 }
 
 void MainWindow::initRegisters(){
@@ -151,6 +156,7 @@ void MainWindow::on_clearRegistersButton_clicked()
         machine->processor->clearRegister();
         initRegisters();
         initMemory();
+        setRowColor(ui->MainMemoryTable, machine->processor->pc);
     }
 }
 
@@ -261,6 +267,7 @@ void MainWindow::on_executeButton_clicked()
         std::string newPc=to_string(machine->processor->pc);
         ui->pcVeiwBox->setText(QString::fromStdString(newPc));
     }
+    setRowColor(ui->MainMemoryTable, machine->processor->pc);
 }
 
 QString MainWindow::hexToBinary(const QString& hex) {
@@ -294,6 +301,7 @@ void MainWindow::on_addInstructionButton_clicked()
         machine->inputInstruction(inst);
 
         initMemory();
+        setRowColor(ui->MainMemoryTable, machine->processor->pc);
     } else {
         QMessageBox::warning(this, "Invalid Input", "Please enter a valid instruction.");
     }
@@ -315,6 +323,7 @@ void MainWindow::on_clearMemoryButton_clicked()
         machine->clearMemory();
         initMemory();
     }
+    setRowColor(ui->MainMemoryTable, 0);
 }
 
 void MainWindow::on_loadFileButton_clicked()
@@ -360,7 +369,7 @@ void MainWindow::on_loadFileButton_clicked()
 
         machine->loadProgramFile(stdFileName);
         MainWindow::initMemory();
-
+        setRowColor(ui->MainMemoryTable, machine->processor->pc);
         QMessageBox::information(this, "Load Successful", "The file was loaded successfully.");
     }
 }
@@ -441,5 +450,16 @@ void MainWindow::on_enterPC_Button_clicked() {
     else {
         QMessageBox::warning(this, "Invalid Input", "Please enter a numeric value (hexadecimal or integer) between [0, 255].");
     }
+    initMemory();
+    setRowColor(ui->MainMemoryTable, machine->processor->pc);
+}
 
+void MainWindow::setRowColor(QTableWidget *tableWidget, int row) {
+    QColor lightGreen(144, 238, 144);
+    QColor black(0,0,0);
+    for (int col = 0; col < tableWidget->columnCount(); ++col) {
+        tableWidget->item(row, col)->setBackground(lightGreen);
+        tableWidget->item(row, col)->setForeground(black);
+
+    }
 }

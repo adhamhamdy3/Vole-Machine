@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Machine.h"
+#include <QTableWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,8 +34,6 @@ private slots:
 
     void on_clearMemoryButton_clicked();
 
-    //void on_pcVeiwBox_editingFinished();
-
     void on_loadFileButton_clicked();
 
     void on_runOneCycleButton_clicked();
@@ -56,5 +55,8 @@ private:
     QString hexToBinary(const QString&);
     // int hexToInt(const QString&);
     // float hexToFloat(const QString&);
+
+
+    void setRowColor(QTableWidget *tableWidget, int row);
 };
 #endif // MAINWINDOW_H
