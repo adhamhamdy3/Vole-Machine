@@ -56,7 +56,13 @@ private:
     // int hexToInt(const QString&);
     // float hexToFloat(const QString&);
 
+    QColor lightGreen = QColor(144, 238, 144);
+    QColor lightYellow = QColor(255, 255, 224);
+    QColor red = QColor(244, 67, 54);
+    QColor white = QColor(255, 255, 255);
+    QColor black = QColor(0, 0, 0);
 
-    void setRowColor(QTableWidget *tableWidget, int row);
+
+    void setRowColor(QTableWidget *tableWidget, int row, const QColor& color, const QColor& tColor);
 };
 #endif // MAINWINDOW_H
