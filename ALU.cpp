@@ -224,75 +224,7 @@ string ALU::floatToHex(float value) {
     return stream.str();
 }
 
-string ALU::decToHex(int decimalValue) {
-    if (decimalValue == 0)
-        return "0";
 
-    string hex;
-    char hexDigits[] = "0123456789ABCDEF";
-
-    while (decimalValue > 0) {
-        int remainder = decimalValue % 16;
-        hex = hexDigits[remainder] + hex;
-        decimalValue /= 16;
-    }
-
-    return hex;
-}
-
-string ALU::decToHexFloat(double decimalValue) {
-    if (decimalValue == 0.0)
-        return "0.0";
-
-    string hex;
-    char hexDigits[] = "0123456789ABCDEF";
-
-    int intPart = static_cast<int>(decimalValue);
-    double fracPart = decimalValue - intPart;
-
-    string intHex;
-    while (intPart > 0) {
-        int remainder = intPart % 16;
-        intHex = hexDigits[remainder] + intHex;
-        intPart /= 16;
-    }
-
-    string fracHex;
-    int precision = 6;
-    while (fracPart > 0 && precision > 0) {
-        fracPart *= 16;
-        int fracInt = static_cast<int>(fracPart);
-        fracHex += hexDigits[fracInt];
-        fracPart -= fracInt;
-        precision--;
-    }
-
-    hex = intHex + "." + (fracHex.empty() ? "0" : fracHex);
-
-    return hex;
-}
-
-double ALU::hexToDecFloat(const string& hexValue) {
-    size_t pointPos = hexValue.find('.');
-
-    string intPartStr = (pointPos == string::npos) ? hexValue : hexValue.substr(0, pointPos);
-    string fracPartStr = (pointPos == string::npos) ? "" : hexValue.substr(pointPos + 1);
-
-    int intPart = 0;
-    for (char hexDigit: intPartStr) {
-        intPart = intPart * 16 + (isdigit(hexDigit) ? hexDigit - '0' : toupper(hexDigit) - 'A' + 10);
-    }
-
-    double fracPart = 0.0;
-    double base = 1.0 / 16.0;
-    for (char hexDigit: fracPartStr) {
-        int decimalDigit = isdigit(hexDigit) ? hexDigit - '0' : toupper(hexDigit) - 'A' + 10;
-        fracPart += decimalDigit * base;
-        base /= 16.0;
-    }
-
-    return intPart + fracPart;
-}
 
 bool ALU::isInt(const string &num){
     for(const char& x : num){
