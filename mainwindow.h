@@ -38,7 +38,7 @@ private slots:
 
     void on_runOneCycleButton_clicked();
 
-    void on_runUntillHaltButton_clicked();
+    void on_runUntilHaltButton_clicked();
 
     void on_aboutButton_clicked();
 
@@ -61,6 +61,7 @@ private:
     QColor red = QColor(244, 67, 54);
     QColor white = QColor(255, 255, 255);
     QColor black = QColor(0, 0, 0);
+    QColor lightCyan = QColor(224, 255, 255);
 
 
     void setRowColor(QTableWidget *tableWidget, int row, const QColor& color, const QColor& tColor);

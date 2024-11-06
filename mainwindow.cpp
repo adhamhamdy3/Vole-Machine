@@ -146,14 +146,24 @@ void MainWindow::initMemory(){
         ui->MainMemoryTable->setItem(i, 4, floatItem);
     }
     for (int i = 0; i < 256; ++i) {
-        if(machine->memory->getCell(i) != "00"){
-            setRowColor(ui->MainMemoryTable, i, lightYellow, black);
-        } if (machine->memory->getCell(i) == "C0"){
-            setRowColor(ui->MainMemoryTable, i, red, black);
-            setRowColor(ui->MainMemoryTable, i+1, red, black);
+        if (machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00") {
+            setRowColor(ui->MainMemoryTable, 0, lightCyan, black);
+        }
 
+        if (machine->memory->getCell(i) == "C0") {
+            setRowColor(ui->MainMemoryTable, i, red, black);
+            if (i + 1 < 256) {
+                setRowColor(ui->MainMemoryTable, i + 1, red, black);
+            }
+        }
+        else if (machine->memory->getCell(i) != "00") {
+            setRowColor(ui->MainMemoryTable, i, lightYellow, black);
+            if (i + 1 < 256) {
+                setRowColor(ui->MainMemoryTable, i + 1, lightYellow, black);
+            }
         }
     }
+
     setRowColor(ui->MainMemoryTable, machine->processor->pc, lightGreen, black);
 
 }
@@ -257,9 +267,6 @@ void MainWindow::on_decodeButton_clicked()
 
 void MainWindow::on_executeButton_clicked()
 {
-    machine->processor->executeInstruction(machine->memory);
-    initRegisters();
-    initMemory();
     if(!machine->running){
         QMessageBox::information(this, "Done", "The execution has been halted.");
         QMessageBox::StandardButton continueExe = QMessageBox::question(this, "Instruction Halted", "The last performed instruction resulted in a halt"
@@ -268,16 +275,21 @@ void MainWindow::on_executeButton_clicked()
                               QMessageBox::Yes | QMessageBox::No);
 
         machine->running = (continueExe == QMessageBox::Yes);
+    } else{
+        machine->processor->executeInstruction(machine->memory);
+        initRegisters();
+        initMemory();
+        if(machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00"){
+            std::string storeMsg = machine->processor->cu->value;
+            ui->screenBox->setText(QString::fromStdString(storeMsg));
+        }
+        if(machine->processor->ir[0]=='B'){
+            std::string newPc=to_string(machine->processor->pc);
+            ui->pcVeiwBox->setText(QString::fromStdString(newPc));
+        }
     }
 
-    if(machine->processor->ir[0] == '3' && machine->processor->ir.substr(2) == "00"){
-        std::string storeMsg = machine->processor->cu->value;
-        ui->screenBox->setText(QString::fromStdString(storeMsg));
-    }
-    if(machine->processor->ir[0]=='B'){
-        std::string newPc=to_string(machine->processor->pc);
-        ui->pcVeiwBox->setText(QString::fromStdString(newPc));
-    }
+
 }
 
 QString MainWindow::hexToBinary(const QString& hex) {
@@ -388,7 +400,7 @@ void MainWindow::on_runOneCycleButton_clicked()
     MainWindow::on_executeButton_clicked();
 }
 
-void MainWindow::on_runUntillHaltButton_clicked()
+void MainWindow::on_runUntilHaltButton_clicked()
 {
     short i = 0;
 
@@ -398,6 +410,7 @@ void MainWindow::on_runUntillHaltButton_clicked()
             QMessageBox::warning(this, "Memory limit reached", "The execution has reached the end of the memory.");
             ui->pcVeiwBox->setText("0");
             machine->processor->pc = 0;
+            initMemory();
             return;
         }
     }
