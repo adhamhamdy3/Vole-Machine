@@ -13,8 +13,8 @@ To download the **Vole Machine Simulator** executable:
 - Unzip the file and run **VoleMachine.exe**. That's all!
 
 ## GUI Screenshots
-![Main Memory View](https://github.com/user-attachments/assets/243ed87d-bb03-4130-8bfe-becbc9210c55)
-![Registers Panel](https://github.com/user-attachments/assets/753679f5-461c-42a0-a0e8-1078813df956)
+![Vole Machine First Look](https://github.com/user-attachments/assets/243ed87d-bb03-4130-8bfe-becbc9210c55)
+![Running Some Instructions](https://github.com/user-attachments/assets/753679f5-461c-42a0-a0e8-1078813df956)
 
 ## Project Contributors
 - **Adham Hamdy**
