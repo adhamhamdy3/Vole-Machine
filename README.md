@@ -3,7 +3,7 @@
 ## Project Overview
 
 > The **Vole Machine Simulator** is a software application that simulates the operation of a simplified computer model known as the Vole Machine. This educational tool is designed
-> to help users learn and understand fundamental concepts of computer architecture and machine-level programming. The project is implemented using C++ with a Qt-based GUI for an > intuitive and interactive user experience.
+> to help users learn and understand fundamental concepts of computer architecture and machine-level programming. The project is implemented using C++ with a Qt-based GUI for an intuitive and interactive user experience.
 
 ## Description
 
@@ -17,3 +17,11 @@
 > and that's all.
 
 ## GUI Screenshots
+![1](https://github.com/user-attachments/assets/243ed87d-bb03-4130-8bfe-becbc9210c55)
+![2](https://github.com/user-attachments/assets/753679f5-461c-42a0-a0e8-1078813df956)
+
+## Project Contributors
+
+# - Adham Hamdy
+# - Youssef Bahaa
+# - Ahmed Attia
