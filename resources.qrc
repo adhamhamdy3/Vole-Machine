@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>vole-machine.ico</file>
+    </qresource>
+</RCC>
