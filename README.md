@@ -16,8 +16,8 @@ The **Vole Machine** is a conceptual computing system used to teach basic princi
 - **Screen Modes**:
   - Switch between **ASCII** and **Hexadecimal** modes to preview screen output.
 
-## Download and Give
-To download the latest release of the **Vole Machine Simulator**, visit the [Release page]([https://github.com/your-username/your-repository/releases](https://github.com/adhamhamdy3/Vole-Machine/releases/tag/v1.1)) on GitHub and download the `release.zip` file. Unzip the file and run **Vole-Machine.exe**.
+## Download
+To download the latest release of the **Vole Machine Simulator**, visit the [Release page](https://github.com/adhamhamdy3/Vole-Machine/releases/tag/v1.1) on GitHub and download the `release.zip` file. Unzip the file and run **Vole-Machine.exe**.
 
 ## Testing
 You can test the application using this instruction set: **2000 2130 2201 23C6 2420 3100 3400 5112 3101 5113 B124 1101 B014 C000**
