@@ -4,11 +4,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-INCLUDEPATH += $$PWD/include
 INCLUDEPATH += $$PWD/src
 SOURCES += \
+    VoleMachine_UI.cpp \
     main.cpp \
-    mainwindow.cpp \
     src/CPU.cpp \
     src/Machine.cpp \
     src/Memory.cpp \
@@ -18,17 +17,17 @@ SOURCES += \
     src/Utilities.cpp
 
 HEADERS += \
-    mainwindow.h \
-    include/CPU.h \
-    include/Machine.h \
-    include/Memory.h \
-    include/CU.h \
-    include/ALU.h \
-    include/Register.h \
-    include/Utilities.h
+    VoleMachine_UI.h \
+    src/CPU.h \
+    src/Machine.h \
+    src/Memory.h \
+    src/CU.h \
+    src/ALU.h \
+    src/Register.h \
+    src/Utilities.h
 
 FORMS += \
-    mainwindow.ui
+    VoleMachine_UI.ui
 
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

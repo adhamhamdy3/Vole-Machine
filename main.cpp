@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "VoleMachine_UI.h"
 #include<QIcon>
 #include <QApplication>
 #include <QDebug>
